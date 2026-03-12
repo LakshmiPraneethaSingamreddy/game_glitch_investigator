@@ -7,13 +7,17 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
-
+1) The first bug i have observed is that the hints are always "Go lower" no matter my guess is either big or smaller than the secret number. 
+2) The second bug that i have identified is once if i guess the correct number and then if i want to play again, it is starting the new game but it is not letting me submit the number basically the start game button is not working properly.
+3) The third bug is the secret number is not chosen according to the difficulty levels. It is chosen randomly from 1-100 without considering those levels.
 ---
 
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+I have used the Copilot in this project
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+Intially in the given code, the secret is converted into string for the even numbered guesses which in turn making the hints backwards. The copliot identified that and when I changed the code according to the copilot's suggestion, it worked.
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
 
 ---
