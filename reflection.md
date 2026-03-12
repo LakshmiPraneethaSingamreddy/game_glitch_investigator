@@ -15,10 +15,11 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
-I have used the Copilot in this project
+I have used the Copilot in this project.
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
 Intially in the given code, the secret is converted into string for the even numbered guesses which in turn making the hints backwards. The copliot identified that and when I changed the code according to the copilot's suggestion, it worked.
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+So when i was trying to fix the start_new_game bug which is starting a new game, but it is not allowing me to submit my guess. The copliot made the changes, but it also resetted the score to '0'(which is useful if i want to start a new game entirely). But if i want to continue playing after guessing the number correct, the score should be carried forward to the next level. In this case the copilot made a minor mistake for not considering this case.
 
 ---
 
