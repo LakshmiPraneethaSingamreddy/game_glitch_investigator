@@ -1,6 +1,13 @@
 import random
 import streamlit as st
-from logic_utils import check_guess, get_range_for_difficulty, parse_guess, update_score
+from logic_utils import (
+    build_new_game_state,
+    check_guess,
+    get_range_for_difficulty,
+    parse_guess,
+    should_reset_for_difficulty_change,
+    update_score,
+)
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
@@ -45,11 +52,17 @@ if "history" not in st.session_state:
 if "last_difficulty" not in st.session_state:
     st.session_state.last_difficulty = difficulty
 
-if st.session_state.last_difficulty != difficulty:
-    st.session_state.secret = random.randint(low, high)
-    st.session_state.attempts = 0
-    st.session_state.status = "playing"
-    st.session_state.history = []
+if should_reset_for_difficulty_change(st.session_state.last_difficulty, difficulty):
+    new_state = build_new_game_state(
+        low=low,
+        high=high,
+        randint_func=random.randint,
+        current_score=st.session_state.score,
+    )  #The game resets when the user changes the difficulty level. The new game retains the current score but generates a new secret number and resets attempts and history.
+    st.session_state.secret = new_state["secret"]
+    st.session_state.attempts = new_state["attempts"]
+    st.session_state.status = new_state["status"]
+    st.session_state.history = new_state["history"]
     st.session_state.last_difficulty = difficulty
 
 st.subheader("Make a guess")
@@ -80,10 +93,16 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
-    st.session_state.attempts = 0
-    st.session_state.secret = random.randint(low, high)
-    st.session_state.status = "playing"
-    st.session_state.history = []
+    new_state = build_new_game_state(
+        low=low,
+        high=high,
+        randint_func=random.randint,
+        current_score=st.session_state.score,
+    )
+    st.session_state.secret = new_state["secret"]
+    st.session_state.attempts = new_state["attempts"]
+    st.session_state.status = new_state["status"]
+    st.session_state.history = new_state["history"]
     st.success(f"New game started. Current score: {st.session_state.score}")
     st.rerun()
 
@@ -94,7 +113,7 @@ if st.session_state.status != "playing":
         st.error("Game over. Start a new game to try again.")
     st.stop()
 
-if submit:
+if submit:  #used to check the user's guess against the secret number when they click the "Submit Guess" button. It updates the game state accordingly, providing feedback and updating the score based on the outcome of the guess.
     st.session_state.attempts += 1
 
     ok, guess_int, err = parse_guess(raw_guess)
